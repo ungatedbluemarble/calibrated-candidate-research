@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calibrated Candidate Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E2761;
+    --navy-deep:#161d4a;
+    --ice:#CADCFC;
+    --ice-soft:#eef3fc;
+    --accent:#3A6FE8;
+    --green:#2E8B6F;
+    --amber:#C77D2E;
+    --ink:#1a1c2e;
+    --slate:#4a5270;
+    --muted:#8088a0;
+    --paper:#fbfbfd;
+    --rule:#e4e7f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    font-size:20px;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 28px;}
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:100;transition:width .1s linear;}
+  header.masthead{border-bottom:1px solid var(--rule);margin-bottom:0;}
+  .kicker{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;
+    padding-top:64px;
+  }
+  h1{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:800;
+    font-size:clamp(38px,6.4vw,60px);
+    line-height:1.02;
+    letter-spacing:-.025em;
+    color:var(--navy);
+    margin:18px 0 22px;
+  }
+  .standfirst{
+    font-size:23px;
+    line-height:1.5;
+    color:var(--slate);
+    font-style:italic;
+    margin-bottom:34px;
+    max-width:38ch;
+  }
+  .byline{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:14px;color:var(--muted);
+    padding-bottom:44px;
+    display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  }
+  .byline .read{color:var(--slate);font-weight:500;}
+  .byline .dot{width:3px;height:3px;border-radius:50%;background:var(--muted);}
+  article{padding-top:48px;}
+  article p{margin:0 0 26px;}
+  article p.lead:first-of-type{font-size:24px;line-height:1.5;color:var(--navy);}
+  article p.lead:first-of-type::first-letter{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:600;
+    float:left;
+    font-size:78px;
+    line-height:.74;
+    padding:8px 12px 0 0;
+    color:var(--accent);
+  }
+  h2{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:700;
+    font-size:27px;
+    line-height:1.2;
+    letter-spacing:-.02em;
+    color:var(--navy);
+    margin:54px 0 20px;
+  }
+  h2 .num{
+    display:block;
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:10px;
+  }
+  strong{font-weight:600;color:var(--navy);}
+  em{font-style:italic;}
+  .pull{
+    font-family:'Spectral',Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:28px;
+    line-height:1.34;
+    color:var(--navy);
+    border-left:3px solid var(--accent);
+    padding:6px 0 6px 30px;
+    margin:42px 0;
+    letter-spacing:-.005em;
+  }
+  .takeaway{
+    background:var(--navy);
+    color:#fff;
+    border-radius:10px;
+    padding:38px 40px;
+    margin:54px 0;
+  }
+  .takeaway .label{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ice);font-weight:600;margin-bottom:14px;
+  }
+  .takeaway p{
+    font-family:'Spectral',Georgia,serif;
+    font-size:24px;line-height:1.45;font-weight:400;
+    color:#fff;margin:0;
+  }
+  .takeaway p strong{color:var(--ice);font-weight:600;}
+  .close-rule{border:0;border-top:1px solid var(--rule);margin:56px 0 36px;}
+  .sources{
+    font-family:'Libre Franklin',sans-serif;
+    border-top:1px solid var(--rule);
+    padding-top:28px;
+    padding-bottom:90px;
+  }
+  .sources-label{
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:16px;
+  }
+  .sources ul{list-style:none;margin-bottom:22px;}
+  .sources li{
+    font-size:15px;line-height:1.5;color:var(--slate);
+    padding:7px 0 7px 16px;position:relative;
+  }
+  .sources li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
+  .sources a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--ice);transition:border-color .15s;}
+  .sources a:hover{border-bottom-color:var(--accent);}
+  .sources-note{
+    font-size:13px;line-height:1.6;color:var(--muted);
+    font-style:normal;margin:0;
+  }
+  @media(max-width:680px){
+    body{font-size:18px;}
+    .standfirst{font-size:20px;}
+    article p.lead:first-of-type{font-size:21px;}
+    .pull{font-size:24px;}
+    .takeaway{padding:30px 26px;}
+    .takeaway p{font-size:21px;}
+    h1{margin-top:6px;}
+    .kicker{padding-top:46px;}
+  }
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:40px 0 12px;}
+  .card{border:1px solid var(--rule);border-radius:10px;padding:28px 26px;background:#fff;text-decoration:none;display:block;transition:box-shadow .18s,border-color .18s;}
+  .card:hover{box-shadow:0 18px 48px -22px rgba(30,39,97,.32);border-color:var(--ice);}
+  .card .tag{font-family:'Libre Franklin',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .card h3{font-family:'Libre Franklin',sans-serif;font-weight:700;font-size:22px;color:var(--navy);margin:10px 0 10px;line-height:1.15;letter-spacing:-.02em;}
+  .card p{font-size:15.5px;line-height:1.5;color:var(--slate);margin:0;}
+  .card .go{font-family:'Libre Franklin',sans-serif;font-size:13px;font-weight:600;color:var(--accent);margin-top:16px;display:inline-block;}
+  @media(max-width:680px){.cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Calibrated Candidate &middot; Research</div>
+    <h1>Calibrated Candidate Research</h1>
+    <p class="standfirst">What the newest research on AI hiring actually proves, and the few moves it shows make a difference for the people sending out resumes.</p>
+    <div class="byline">
+      <span class="read">Two pieces</span>
+      <span class="dot"></span>
+      <span>A short read and a technical analysis</span>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+<article>
+  <p class="lead">Roughly nine in ten U.S. employers now screen applicants with AI, most of it bought from the same handful of vendors. Two recent studies, one a deployment-scale analysis from Stanford, Chapman, and Northeastern, the other a controlled experiment on large language models, show what that concentration does to job seekers and where a candidate has real, evidence-backed room to respond. These two pieces work through the findings and the defensible response.</p>
+  <div class="cards">
+    <a class="card" href="./linkedin.html">
+      <span class="tag">The short read</span>
+      <h3>The AI That Says No Everywhere at Once</h3>
+      <p>What the research means in plain terms for anyone job hunting in 2026, and the three moves that actually change the odds at the screening layer.</p>
+      <span class="go">Read the short version &rarr;</span>
+    </a>
+    <a class="card" href="./technical.html">
+      <span class="tag">Technical &amp; compliance</span>
+      <h3>Monoculture, Self-Preference, and the Applicant&rsquo;s Defensible Moves</h3>
+      <p>A rigorous reading of both studies, the source-exact figures by metric, the regulatory frame, and where a candidate-side tool can legitimately help.</p>
+      <span class="go">Read the technical analysis &rarr;</span>
+    </a>
+  </div>
+  <div class="takeaway">
+    <div class="label">The throughline</div>
+    <p>A single vendor&rsquo;s model can reject the same person everywhere it is used, and current LLM screeners reward materials that read the way they expect. <strong>Calibrated Candidate</strong> works the three levers the research supports: breadth across distinct screening systems, per-position tailoring, and AI-shaped materials. The benefit is bounded and honest: it improves how an applicant meets the screening layer, not whether they get hired.</p>
+  </div>
+  <hr class="close-rule">
+  <div class="sources">
+    <div class="sources-label">Primary sources</div>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2605.27371" target="_blank" rel="noopener">Algorithmic Monocultures in Hiring</a> (FAccT 2026)</li>
+      <li><a href="https://arxiv.org/abs/2509.00462" target="_blank" rel="noopener">AI Self-preferencing in Algorithmic Hiring</a> (EAAMO 2025)</li>
+    </ul>
+    <p class="sources-note">The views, models, and conclusions expressed here are strictly those of the author. They do not reflect the official policy, operations, or positions of any past or present employer. This work uses no proprietary, confidential, or employer-owned data; it is developed solely from public law, public sources, and the author&rsquo;s own analysis. The material is informational and is not legal advice.</p>
+  </div>
+  <p class="sources-note" style="margin-top:18px;">By <strong>Mathew Baldwin</strong>, <a href="https://github.com/ungatedbluemarble" style="color:var(--navy);border-bottom:1px solid var(--ice);text-decoration:none;">@ungatedbluemarble</a></p>
+</article>
+</div>
+<script>
+  var bar=document.getElementById('progress');
+  function upd(){
+    var h=document.documentElement;
+    var st=h.scrollTop||document.body.scrollTop;
+    var sh=(h.scrollHeight-h.clientHeight);
+    bar.style.width=(sh>0?(st/sh*100):0)+'%';
+  }
+  document.addEventListener('scroll',upd,{passive:true});
+  upd();
+</script>
+</body>
+</html>
