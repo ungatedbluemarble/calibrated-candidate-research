@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI That Says No Everywhere at Once</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E2761;
+    --navy-deep:#161d4a;
+    --ice:#CADCFC;
+    --ice-soft:#eef3fc;
+    --accent:#3A6FE8;
+    --green:#2E8B6F;
+    --amber:#C77D2E;
+    --ink:#1a1c2e;
+    --slate:#4a5270;
+    --muted:#8088a0;
+    --paper:#fbfbfd;
+    --rule:#e4e7f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    font-size:20px;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 28px;}
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:100;transition:width .1s linear;}
+  header.masthead{border-bottom:1px solid var(--rule);margin-bottom:0;}
+  .kicker{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;
+    padding-top:64px;
+  }
+  h1{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:800;
+    font-size:clamp(38px,6.4vw,60px);
+    line-height:1.02;
+    letter-spacing:-.025em;
+    color:var(--navy);
+    margin:18px 0 22px;
+  }
+  .standfirst{
+    font-size:23px;
+    line-height:1.5;
+    color:var(--slate);
+    font-style:italic;
+    margin-bottom:34px;
+    max-width:38ch;
+  }
+  .byline{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:14px;color:var(--muted);
+    padding-bottom:44px;
+    display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  }
+  .byline .read{color:var(--slate);font-weight:500;}
+  .byline .dot{width:3px;height:3px;border-radius:50%;background:var(--muted);}
+  article{padding-top:48px;}
+  article p{margin:0 0 26px;}
+  article p.lead:first-of-type{font-size:24px;line-height:1.5;color:var(--navy);}
+  article p.lead:first-of-type::first-letter{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:600;
+    float:left;
+    font-size:78px;
+    line-height:.74;
+    padding:8px 12px 0 0;
+    color:var(--accent);
+  }
+  h2{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:700;
+    font-size:27px;
+    line-height:1.2;
+    letter-spacing:-.02em;
+    color:var(--navy);
+    margin:54px 0 20px;
+  }
+  h2 .num{
+    display:block;
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:10px;
+  }
+  strong{font-weight:600;color:var(--navy);}
+  em{font-style:italic;}
+  .pull{
+    font-family:'Spectral',Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:28px;
+    line-height:1.34;
+    color:var(--navy);
+    border-left:3px solid var(--accent);
+    padding:6px 0 6px 30px;
+    margin:42px 0;
+    letter-spacing:-.005em;
+  }
+  .takeaway{
+    background:var(--navy);
+    color:#fff;
+    border-radius:10px;
+    padding:38px 40px;
+    margin:54px 0;
+  }
+  .takeaway .label{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ice);font-weight:600;margin-bottom:14px;
+  }
+  .takeaway p{
+    font-family:'Spectral',Georgia,serif;
+    font-size:24px;line-height:1.45;font-weight:400;
+    color:#fff;margin:0;
+  }
+  .takeaway p strong{color:var(--ice);font-weight:600;}
+  .close-rule{border:0;border-top:1px solid var(--rule);margin:56px 0 36px;}
+  .endnote{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:15px;line-height:1.6;color:var(--slate);
+    padding-bottom:90px;
+  }
+  .endnote strong{color:var(--navy);}
+  .sources{
+    font-family:'Libre Franklin',sans-serif;
+    border-top:1px solid var(--rule);
+    padding-top:28px;
+    padding-bottom:90px;
+  }
+  .sources-label{
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:16px;
+  }
+  .sources ul{list-style:none;margin-bottom:22px;}
+  .sources li{
+    font-size:15px;line-height:1.5;color:var(--slate);
+    padding:7px 0 7px 16px;position:relative;
+  }
+  .sources li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
+  .sources a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--ice);transition:border-color .15s;}
+  .sources a:hover{border-bottom-color:var(--accent);}
+  .sources-note{
+    font-size:13px;line-height:1.6;color:var(--muted);
+    font-style:normal;margin:0;
+  }
+  @media(max-width:680px){
+    body{font-size:18px;}
+    .standfirst{font-size:20px;}
+    article p.lead:first-of-type{font-size:21px;}
+    .pull{font-size:24px;}
+    .takeaway{padding:30px 26px;}
+    .takeaway p{font-size:21px;}
+    h1{margin-top:6px;}
+    .kicker{padding-top:46px;}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Algorithmic Hiring &middot; Job Seekers</div>
+    <h1>The AI That Says No Everywhere at Once</h1>
+    <p class="standfirst">What the newest research on hiring algorithms means for everyone sending out resumes in 2026.</p>
+    <div class="byline">
+      <span class="read">A 4-minute read</span>
+      <span class="dot"></span>
+      <span>Why volume no longer beats strategy at the AI screening layer</span>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+<article>
+  <p class="lead">The Class of 2026 is walking into one of the hardest entry-level job markets in years. There are fewer openings, and AI has made it trivial to fire off applications, so employers are now seeing close to three times as many applicants per posting as they did in 2022. To cope, roughly nine in ten U.S. employers now use AI to screen and rank candidates. Most of them buy that AI from the same small handful of vendors.</p>
+  <p>That last detail is the one almost nobody talks about, and it is the one that should worry job seekers most.</p>
+  <h2><span class="num">The mechanism</span>One model, many doors, the same answer</h2>
+  <p>A team of researchers at Stanford, Chapman, and Northeastern just published the largest real-world study of hiring algorithms ever conducted. They analyzed roughly three million applicants submitting four million applications, all screened by tools from a single vendor. Their findings, presented at the 2026 ACM Conference on Fairness, Accountability, and Transparency, are sobering.</p>
+  <p>When many employers rely on the same screening algorithm, the researchers call it an <strong>algorithmic monoculture</strong>. The problem with a monoculture is simple: if one model decides you are not a fit, it does not just reject you at one company. It reaches the same conclusion about you everywhere it is used. A rejection stops being an independent opinion from one employer and becomes a single verdict copied across the market.</p>
+  <div class="pull">Applying to more jobs does not rescue you if those jobs all run the same model behind the scenes.</div>
+  <p>The data bears this out. Among applicants who applied to ten positions, a meaningful share were recommended for rejection at every single one, a rate far higher than chance would predict. The researchers found that people have to apply far more widely than they normally do just to guarantee that a human being ever lays eyes on their application.</p>
+  <p>The study also surfaced clear racial disparities. Measured position by position, as U.S. employment law requires, nearly 26 percent of applications from Black applicants and almost 15 percent from Asian applicants went to roles where the algorithm disadvantaged their group. Crucially, that bias vanished when the data was averaged together, and only appeared when each job was examined on its own. The big-picture average hid the discrimination happening job by job.</p>
+  <h2><span class="num">The newer twist</span>AI prefers resumes that sound like AI</h2>
+  <p>A separate 2025 study from researchers at Maryland, the National University of Singapore, and Ohio State adds a second layer that matters now that screening is moving to large language models. They ran a controlled experiment using more than two thousand real resumes and found that when an LLM evaluates resumes, it systematically favors resumes written by an LLM over equally strong resumes written by a human, even when the actual content is held equal.</p>
+  <p>The effect is large. Across the major models tested, the preference for AI-written resumes over human-written ones ran well past two to one. In simulated hiring across two dozen occupations, candidates whose resumes were AI-generated were between 23 and 60 percent more likely to be shortlisted than equally qualified candidates who wrote their own, with the biggest gaps in business roles like sales and accounting.</p>
+  <p>Read those two studies together and the message for job seekers is uncomfortable but clear. The system is concentrated, so a single model&rsquo;s blind spot can shut you out everywhere. And that model increasingly rewards materials that read the way it expects, which raw human writing often does not.</p>
+  <h2><span class="num">What this means</span>What this actually means if you are job hunting</h2>
+  <p>None of this means the game is rigged beyond hope. It means the old advice, polish one resume and send it everywhere, is exactly wrong for this environment. Three things follow directly from the research.</p>
+  <p><strong>First, breadth across different systems beats sheer volume.</strong> Sending fifty applications into the same vendor&rsquo;s funnel is fifty copies of one verdict. Spreading across employers that use different screening tools is what actually gives you fresh chances.</p>
+  <p><strong>Second, tailor to each role, not to your career in general.</strong> Because bias and fit are decided position by position, one universal resume inherits the same outcome everywhere. A version shaped to each specific posting gets evaluated fresh each time.</p>
+  <p><strong>Third, let AI help you write.</strong> This is not about gaming anyone. Modern screeners are tuned to the structure and phrasing that language models produce, and a candidate submitting raw, unpolished text is measurably more likely to be filtered out before a human ever reads it. Using AI to refine your resume is no longer an edge; it is closer to table stakes.</p>
+  <div class="takeaway">
+    <div class="label">The honest version</div>
+    <p>Calibrated Candidate does not get you the job; the interview, the fit, and the market decide that. What it does is give your real qualifications a fair shot at getting <strong>past the AI screen and in front of a hiring manager</strong>, by spreading your applications across different screening systems, tailoring each one to the role, and presenting your experience the way modern screeners are built to recognize. In a market this concentrated, that is not an edge anymore. It is the level playing field.</p>
+  </div>
+  <hr class="close-rule">
+  <p class="endnote"><strong>If you are job hunting right now, that is where I would start.</strong> AI now sits on both sides of the hiring desk. A strong candidate who submits raw, unshaped materials can be filtered out before any person sees them, not because they are unqualified, but because their application does not read the way the screener expects. Close that gap first.</p>
+  <div class="sources">
+    <div class="sources-label">Sources &amp; further reading</div>
+    <ul>
+      <li><a href="https://algorithmichiring.github.io/" target="_blank" rel="noopener">Algorithmic Monocultures in Hiring</a> (Bommasani, Bana, Creel, Jurafsky &amp; Liang, FAccT 2026)</li>
+      <li><a href="https://hai.stanford.edu/news/ai-hiring-tools-can-yield-racial-bias-and-systemic-rejection" target="_blank" rel="noopener">Stanford HAI summary of the study</a></li>
+      <li><a href="https://arxiv.org/abs/2509.00462" target="_blank" rel="noopener">AI Self-preferencing in Algorithmic Hiring</a> (Xu, Li &amp; Jiang, EAAMO 2025)</li>
+    </ul>
+    <p class="sources-note">The views, models, and conclusions expressed here are strictly those of the author. They do not reflect the official policy, operations, or positions of any past or present employer. This work uses no proprietary, confidential, or employer-owned data; it is developed solely from public law, public sources, and the author&rsquo;s own analysis. The material is informational and is not legal advice.</p>
+  </div>
+  <p class="sources-note" style="margin-top:18px;">By <strong>Mathew Baldwin</strong>, <a href="https://github.com/ungatedbluemarble" style="color:var(--navy);border-bottom:1px solid var(--ice);text-decoration:none;">@ungatedbluemarble</a> &middot; <a href="./" style="color:var(--navy);border-bottom:1px solid var(--ice);text-decoration:none;">More from this project</a> &middot; <a href="./technical.html" style="color:var(--navy);border-bottom:1px solid var(--ice);text-decoration:none;">Read the technical analysis</a></p>
+</article>
+</div>
+<script>
+  var bar=document.getElementById('progress');
+  function upd(){
+    var h=document.documentElement;
+    var st=h.scrollTop||document.body.scrollTop;
+    var sh=(h.scrollHeight-h.clientHeight);
+    bar.style.width=(sh>0?(st/sh*100):0)+'%';
+  }
+  document.addEventListener('scroll',upd,{passive:true});
+  upd();
+</script>
+</body>
+</html>
