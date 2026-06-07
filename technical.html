@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algorithmic Monoculture, Self-Preference, and the Applicant's Defensible Moves</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E2761;
+    --navy-deep:#161d4a;
+    --ice:#CADCFC;
+    --ice-soft:#eef3fc;
+    --accent:#3A6FE8;
+    --green:#2E8B6F;
+    --amber:#C77D2E;
+    --ink:#1a1c2e;
+    --slate:#4a5270;
+    --muted:#8088a0;
+    --paper:#fbfbfd;
+    --rule:#e4e7f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    font-size:20px;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 28px;}
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:100;transition:width .1s linear;}
+  header.masthead{border-bottom:1px solid var(--rule);margin-bottom:0;}
+  .kicker{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;
+    padding-top:64px;
+  }
+  h1{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:800;
+    font-size:clamp(38px,6.4vw,60px);
+    line-height:1.02;
+    letter-spacing:-.025em;
+    color:var(--navy);
+    margin:18px 0 22px;
+  }
+  .standfirst{
+    font-size:23px;
+    line-height:1.5;
+    color:var(--slate);
+    font-style:italic;
+    margin-bottom:34px;
+    max-width:38ch;
+  }
+  .byline{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:14px;color:var(--muted);
+    padding-bottom:44px;
+    display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  }
+  .byline .read{color:var(--slate);font-weight:500;}
+  .byline .dot{width:3px;height:3px;border-radius:50%;background:var(--muted);}
+  article{padding-top:48px;}
+  article p{margin:0 0 26px;}
+  article p.lead:first-of-type{font-size:24px;line-height:1.5;color:var(--navy);}
+  article p.lead:first-of-type::first-letter{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:600;
+    float:left;
+    font-size:78px;
+    line-height:.74;
+    padding:8px 12px 0 0;
+    color:var(--accent);
+  }
+  h2{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:700;
+    font-size:27px;
+    line-height:1.2;
+    letter-spacing:-.02em;
+    color:var(--navy);
+    margin:54px 0 20px;
+  }
+  h2 .num{
+    display:block;
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:10px;
+  }
+  strong{font-weight:600;color:var(--navy);}
+  em{font-style:italic;}
+  .pull{
+    font-family:'Spectral',Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:28px;
+    line-height:1.34;
+    color:var(--navy);
+    border-left:3px solid var(--accent);
+    padding:6px 0 6px 30px;
+    margin:42px 0;
+    letter-spacing:-.005em;
+  }
+  .takeaway{
+    background:var(--navy);
+    color:#fff;
+    border-radius:10px;
+    padding:38px 40px;
+    margin:54px 0;
+  }
+  .takeaway .label{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ice);font-weight:600;margin-bottom:14px;
+  }
+  .takeaway p{
+    font-family:'Spectral',Georgia,serif;
+    font-size:24px;line-height:1.45;font-weight:400;
+    color:#fff;margin:0;
+  }
+  .takeaway p strong{color:var(--ice);font-weight:600;}
+  .close-rule{border:0;border-top:1px solid var(--rule);margin:56px 0 36px;}
+  .sources{
+    font-family:'Libre Franklin',sans-serif;
+    border-top:1px solid var(--rule);
+    padding-top:28px;
+    padding-bottom:90px;
+  }
+  .sources-label{
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:16px;
+  }
+  .sources ul{list-style:none;margin-bottom:22px;}
+  .sources li{
+    font-size:15px;line-height:1.5;color:var(--slate);
+    padding:7px 0 7px 16px;position:relative;
+  }
+  .sources li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
+  .sources a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--ice);transition:border-color .15s;}
+  .sources a:hover{border-bottom-color:var(--accent);}
+  .sources-note{
+    font-size:13px;line-height:1.6;color:var(--muted);
+    font-style:normal;margin:0;
+  }
+  @media(max-width:680px){
+    body{font-size:18px;}
+    .standfirst{font-size:20px;}
+    article p.lead:first-of-type{font-size:21px;}
+    .pull{font-size:24px;}
+    .takeaway{padding:30px 26px;}
+    .takeaway p{font-size:21px;}
+    h1{margin-top:6px;}
+    .kicker{padding-top:46px;}
+  }
+  table.data{width:100%;border-collapse:collapse;margin:32px 0;font-family:'Libre Franklin',sans-serif;font-size:15px;}
+  table.data th{background:var(--navy);color:#fff;text-align:left;padding:11px 14px;font-weight:600;font-size:13px;letter-spacing:.04em;}
+  table.data td{padding:11px 14px;border-bottom:1px solid var(--rule);color:var(--slate);vertical-align:top;line-height:1.45;}
+  table.data tr:nth-child(even) td{background:var(--ice-soft);}
+  table.data td strong{color:var(--navy);}
+  h3.sub{font-family:'Libre Franklin',sans-serif;font-weight:600;font-size:18px;color:var(--navy);margin:28px 0 10px;letter-spacing:-.01em;}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Algorithmic Hiring &middot; Technical &amp; Compliance</div>
+    <h1>Algorithmic Monoculture, Self-Preference, and the Applicant&rsquo;s Defensible Moves</h1>
+    <p class="standfirst">A technical and compliance reading of two 2025&ndash;2026 studies on AI hiring, and where a candidate-side tool can legitimately help.</p>
+    <div class="byline">
+      <span class="read">An 8-minute read</span>
+      <span class="dot"></span>
+      <span>What the evidence supports, and what it does not</span>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+<article>
+  <p class="lead">Two recent papers describe different but compounding failure modes in AI-mediated hiring. The first establishes structural harm at deployment scale on an older generation of screening technology. The second isolates a mechanism specific to large language models. Read together, they cover both the architecture being retired and the one replacing it.</p>
+  <p>This distinction matters for any claim built on them. The monoculture study measured a real vendor (identified in press coverage as Pymetrics) screening real applicants, but that vendor uses trait-matching and assessment-style scoring, not LLM resume parsing. The self-preferencing study uses current LLMs but in a controlled simulation, not a live deployment. Neither paper, on its own, proves that today&rsquo;s LLM-based applicant tracking systems produce the exact rates either study reports. The defensible throughline is the mechanism, not the magnitude.</p>
+  <h2><span class="num">Study one</span>Monoculture and systemic rejection</h2>
+  <h3 class="sub">Design</h3>
+  <p>The authors acquired a dataset of roughly three million applicants submitting four million applications, every one screened by algorithms from a single vendor across 156 employers and 11 market sectors. Critically, they evaluated adverse impact position by position, in line with how Title VII of the Civil Rights Act and the EEOC four-fifths rule actually operate, rather than pooling all outcomes into a single aggregate.</p>
+  <h3 class="sub">Findings</h3>
+  <p>The position-level analysis is the methodological core. Prior studies that pooled a vendor&rsquo;s outcomes found little adverse impact. Disaggregated by position, the picture changes sharply, because favorable patterns in some roles and unfavorable patterns in others cancel out in the aggregate and reappear only when each requisition is examined separately.</p>
+  <table class="data">
+    <thead><tr><th>Metric / population</th><th>Source-exact figure</th><th>What it measures</th></tr></thead>
+    <tbody>
+      <tr><td>Adverse impact, Black applications</td><td>25.87%</td><td>Share sent to positions adversely impacting the group (four-fifths rule)</td></tr>
+      <tr><td>Adverse impact, Asian applications</td><td>14.74%</td><td>Same measure, Asian applicants</td></tr>
+      <tr><td>Systemic rejection (arXiv abstract)</td><td>4% of applicants applying to 10 positions</td><td>Recommended for rejection at all positions; exceeds chance baseline</td></tr>
+      <tr><td>Systemic rejection (project site / HAI)</td><td>10% of applicants submitting 4 applications</td><td>Same phenomenon, different application-count cut</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Note on the two systemic-rejection figures:</strong> the arXiv abstract reports that 4 percent of applicants who apply to ten positions are recommended for rejection from all of them, while the project website and Stanford HAI summary report that 10 percent of applicants who submit four applications are systemically rejected. These are two cuts of the same phenomenon at different application counts, not a contradiction.</p>
+  <div class="pull">Under monoculture, a rejection is not an independent signal per employer. It is the same model returning a correlated verdict wherever it is deployed.</div>
+  <p>The authors use the deterministic replicability of the algorithms to simulate counterfactuals and show that applicants must apply far more broadly than they typically do to ensure any human review at all. Applying to more positions screened by the same model does not break the correlation; diversifying the screening system does.</p>
+  <h2><span class="num">Study two</span>LLM self-preference</h2>
+  <h3 class="sub">Design</h3>
+  <p>The authors ran a controlled resume correspondence experiment on 2,245 real human-written resumes. For each, they generated LLM counterfactual versions and held content quality constant, then tested whether an evaluator LLM favored resumes produced by itself over those written by humans or by a different model. They tested nine models spanning closed and open source (GPT-4o, GPT-4o-mini, GPT-4-turbo, LLaMA-3.3-70B, LLaMA-3.2-3B, LLaMA-3.2-1B, Mistral-7B, Qwen-2.5-72B, DeepSeek-V3) and controlled for verbosity and position bias. The paper is dated August 29, 2025, so its models reflect mid-2025 state of the art.</p>
+  <h3 class="sub">Findings</h3>
+  <p>Eight of the nine models exhibited clear self-preference for their own output over equal human-written resumes. The precise figure depends on the fairness metric, which is the source of the apparently conflicting numbers in secondary coverage.</p>
+  <table class="data">
+    <thead><tr><th>Metric</th><th>Range</th><th>Scope</th></tr></thead>
+    <tbody>
+      <tr><td>Self-preference, statistical parity</td><td>26% to 98%</td><td>8 of 9 models; full tested set</td></tr>
+      <tr><td>Self-preference, equal opportunity</td><td>67% to 82%</td><td>Larger aligned models (GPT-4o, LLaMA-3.3-70B, Qwen-2.5-72B, DeepSeek-V3, GPT-4o-mini)</td></tr>
+      <tr><td>Shortlisting advantage</td><td>23% to 60%</td><td>Same-model candidate vs human-written, simulated across 24 occupations</td></tr>
+      <tr><td>Mitigation effect</td><td>&gt;50% reduction</td><td>System prompting + majority-vote ensemble with weaker-self-recognition models</td></tr>
+    </tbody>
+  </table>
+  <p>The bias scaled with model size: larger, more aligned models showed stronger self-preference, consistent with the authors&rsquo; hypothesis that self-recognition drives the effect. The same insight powers their mitigation: diluting any single model&rsquo;s judgment with smaller models that have weaker self-recognition, or prompting against it, cut the bias by more than half. That mitigation matters for the employer side, because it means the self-preference edge is something a well-designed screening process can deliberately neutralize.</p>
+  <h2><span class="num">The frame</span>Regulatory context</h2>
+  <p>Both studies land inside an active compliance perimeter. In the United States, Title VII and the EEOC four-fifths rule already require adverse-impact analysis at the level of specific jobs, which is exactly the disaggregation the monoculture study argues most audits skip. New York City Local Law 144 mandates bias audits of automated employment decision tools, but its current guidance leans on aggregate reporting and does not adequately capture position-level disparity or cross-employer systemic rejection. In the European Union, the AI Act designates hiring systems as high-risk by default, with core obligations taking effect August 2, 2026. The net effect: an aggregate-only fairness story is becoming insufficient both scientifically and legally, and position-level evidence is becoming the standard.</p>
+  <h2><span class="num">The application</span>Where a candidate-side tool can legitimately help</h2>
+  <p>Calibrated Candidate is an open-source, AI-orchestrated job-search toolkit. The two studies define precisely three levers it can pull that are supported by evidence. Keeping that line sharp is what makes the positioning defensible to a technical or compliance reader.</p>
+  <h3 class="sub">Supported lever one: breadth across distinct screening systems</h3>
+  <p>The monoculture study proves that volume against one model is wasted, because the verdict is correlated. The supported move is to steer applications toward employers running different screening systems, which is the only lever the counterfactual simulation shows changes the outcome. The benefit is exposure management: reducing the share of an applicant&rsquo;s pipeline that depends on any single model&rsquo;s judgment.</p>
+  <h3 class="sub">Supported lever two: per-position tailoring</h3>
+  <p>Because adverse impact and fit are determined position by position, a single universal resume inherits one verdict everywhere it is submitted. Tailoring materials to each requisition gives the applicant an independent evaluation at each position rather than a propagated rejection. This aligns directly with the study&rsquo;s central methodological finding.</p>
+  <h3 class="sub">Supported lever three: AI-shaped materials</h3>
+  <p>The self-preferencing study shows current LLM evaluators favor LLM-generated resumes over equal human-written ones by large margins, with a simulated shortlisting advantage of 23 to 60 percent. An applicant who submits AI-refined materials reads the way modern screeners expect; one who submits raw human-written text is measurably more likely to be filtered before human review. Using AI to refine a resume is therefore a research-supported reduction in filtering risk, not a trick.</p>
+  <h2><span class="num">The boundaries</span>What these levers do and do not do</h2>
+  <p><strong>Materials shape, not model-matching.</strong> The self-preference effect is strongest when applicant and evaluator use the same model, but applicants rarely know which model screens a given posting. The realistic benefit is materials shaped to read the way LLM screeners expect, not materials matched to one specific screener.</p>
+  <p><strong>A real edge today, not a permanent one.</strong> The self-preferencing result comes from a controlled study, and its own mitigation section shows employers can cut the advantage by more than half through prompting and model ensembling. The shortlisting advantage is genuine in the current environment and may narrow as screeners adopt those mitigations.</p>
+  <p><strong>Exposure management, not bias correction.</strong> Calibrated Candidate reduces an applicant&rsquo;s exposure to a single biased verdict through breadth and per-position tailoring. It does not alter the bias inside any vendor&rsquo;s algorithm; the screener remains whatever it is, and the gain comes from how an applicant&rsquo;s pipeline is distributed across screeners.</p>
+  <div class="takeaway">
+    <div class="label">The defensible claim</div>
+    <p>Calibrated Candidate works the three levers the studies prove matter: <strong>breadth</strong> across distinct screening systems, <strong>per-position tailoring</strong>, and <strong>AI-shaped materials</strong> that current LLM screeners favor. The benefit is real and bounded: it improves how an applicant meets the screening layer, rather than matching a specific model, guaranteeing an outcome, or changing the bias inside the screener itself.</p>
+  </div>
+  <hr class="close-rule">
+  <div class="sources">
+    <div class="sources-label">Primary sources</div>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2605.27371" target="_blank" rel="noopener">Algorithmic Monocultures in Hiring</a> (Bommasani, Bana, Creel, Jurafsky &amp; Liang, FAccT 2026); <a href="https://algorithmichiring.github.io/" target="_blank" rel="noopener">project site</a>; <a href="https://hai.stanford.edu/news/ai-hiring-tools-can-yield-racial-bias-and-systemic-rejection" target="_blank" rel="noopener">Stanford HAI summary</a></li>
+      <li><a href="https://arxiv.org/abs/2509.00462" target="_blank" rel="noopener">AI Self-preferencing in Algorithmic Hiring</a> (Xu, Li &amp; Jiang, EAAMO 2025; v3 dated Aug 29 2025; under review at Manufacturing &amp; Service Operations Management)</li>
+      <li>Vendor identity (Pymetrics) per <em>Fortune</em>, May 26 2026</li>
+    </ul>
+    <p class="sources-note">Figures verified against the arXiv abstract and the full v3 PDF text. The views, models, and conclusions expressed here are strictly those of the author. They do not reflect the official policy, operations, or positions of any past or present employer. This work uses no proprietary, confidential, or employer-owned data; it is developed solely from public law, public sources, and the author&rsquo;s own analysis. The material is informational and is not legal advice.</p>
+  </div>
+  <p class="sources-note" style="margin-top:18px;">By <strong>Mathew Baldwin</strong>, <a href="https://github.com/ungatedbluemarble" style="color:var(--navy);border-bottom:1px solid var(--ice);text-decoration:none;">@ungatedbluemarble</a> &middot; <a href="./" style="color:var(--navy);border-bottom:1px solid var(--ice);text-decoration:none;">More from this project</a> &middot; <a href="./linkedin.html" style="color:var(--navy);border-bottom:1px solid var(--ice);text-decoration:none;">Read the short version</a></p>
+</article>
+</div>
+<script>
+  var bar=document.getElementById('progress');
+  function upd(){
+    var h=document.documentElement;
+    var st=h.scrollTop||document.body.scrollTop;
+    var sh=(h.scrollHeight-h.clientHeight);
+    bar.style.width=(sh>0?(st/sh*100):0)+'%';
+  }
+  document.addEventListener('scroll',upd,{passive:true});
+  upd();
+</script>
+</body>
+</html>
